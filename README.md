@@ -18,12 +18,29 @@ $ source <your_env_dir>/bin/activate
 $ pip install -r requirements.txt
 ```
 
+# Db migration
 
-# Development
-
-Starting the project for development.
+The configured database is sqlite (just for demonstration purposes)
 
 ```sh
 $ python manage.py migrate
+# create an administrator account
 $ python manage.py createsuperuser --email admin@example.com --username admin
 ```
+
+# Run the tests
+
+```sh
+$ python manage.py test
+```
+
+# Run the app
+
+```sh
+$ python manage.py runserver
+```
+
+This project is using the Django's REST framework api view, so it has also an html ui at `localhost:8000/loans`.
+
+The `admin` has access to everything but it's possible to create other users and
+play around with the permissions by accessing `localhost:8000/admin`

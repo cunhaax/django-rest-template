@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
+# @ensure_csrf_cookie is useful for AJAX without HTML form
+# https://docs.djangoproject.com/en/dev/ref/csrf/#page-uses-ajax-without-any-html-form
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,7 +11,9 @@ from .serializers import LoanSerializer, PaymentSerializer
 
 
 @api_view(['GET', 'POST'])
-@permission_required('loans.change_loan', 'api-auth/login')
+@permission_required('loans.change_loan', '/api-auth/login/',
+                     raise_exception=False)
+@ensure_csrf_cookie
 def loans(request):
     # TODO: results pagination for GET
     if request.method == 'GET':
@@ -26,7 +31,8 @@ def loans(request):
 
 
 @api_view(['GET'])
-@login_required(login_url='api-auth/login')
+@login_required(login_url='/api-auth/login/')
+@ensure_csrf_cookie
 def detail(request, loan_id):
     if request.method == 'GET':
         loan = get_object_or_404(Loan, loan_uuid=loan_id)
@@ -34,7 +40,9 @@ def detail(request, loan_id):
 
 
 @api_view(['GET', 'POST'])
-@permission_required('loans.change_payment', 'api-auth/login')
+@permission_required('loans.change_payment', '/api-auth/login/',
+                     raise_exception=True)
+@ensure_csrf_cookie
 def payments(request, loan_id):
     # TODO: results pagination for GET
 
@@ -54,7 +62,8 @@ def payments(request, loan_id):
 
 
 @api_view(['POST'])
-@login_required(login_url='api-auth/login')
+@login_required(login_url='/api-auth/login/')
+@ensure_csrf_cookie
 def balance(request, loan_id):
     # TODO: Using a POST for a reading operation is only useful if we want to
     # avoid leaking sensitive information (eg. in server logs)

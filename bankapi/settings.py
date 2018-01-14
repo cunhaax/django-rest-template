@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 
 
 REST_FRAMEWORK = {
-    # TODO: use json renderer when not in debug
+    #  use only json renderer when not in debug
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),

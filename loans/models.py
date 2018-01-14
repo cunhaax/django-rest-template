@@ -5,9 +5,9 @@ from django.db.models import Sum
 
 
 class Loan(models.Model):
-    # TODO: maybe the max value of the integer for the 'amount' is not
+    # TODO: Maybe the max value of the integer for the 'amount' is not
     # enough for a very big bank...
-    # and maybe should enforce positive numbers
+    # Do field validation (eg enforce positive numbers)
 
     # loan amount in dollars
     amount = models.FloatField()
